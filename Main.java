@@ -19,16 +19,43 @@ public class Main {
 //            System.out.println();
 //        }
 
-        String filename = args[0];
-        String delim = args[1];
-        SymbolGraph sg = new SymbolGraph(filename, delim);
+//        String filename = args[0];
+//        String delim = args[1];
+//        SymbolGraph sg = new SymbolGraph(filename, delim);
+//
+//        Graph G = sg.G();
+//
+//        while (edu.princeton.cs.algs4.StdIn.hasNextLine()) {
+//            String source = edu.princeton.cs.algs4.StdIn.readLine();
+//            for (int w : G.adj(sg.index(source)))
+//                StdOut.println("   " + sg.name(w));
+//        }
 
-        Graph G = sg.G();
+        // Degrees of separation
+        StdOut.println("Degrees of separation: ");
 
-        while (edu.princeton.cs.algs4.StdIn.hasNextLine()) {
-            String source = edu.princeton.cs.algs4.StdIn.readLine();
-            for (int w : G.adj(sg.index(source)))
-                StdOut.println("   " + sg.name(w));
+        SymbolGraph sg2 = new SymbolGraph(args[0], args[1]);
+
+        Graph G2 = sg2.G();
+
+        String source = args[2];
+        if (!sg2.contains(source)) {
+            StdOut.println(source + " not in database.");
+            return;
+        }
+
+        int s = sg2.index(source);
+        BreadthFirstPaths bfs = new BreadthFirstPaths(G2, s);
+
+        while (!edu.princeton.cs.algs4.StdIn.isEmpty()) {
+            String sink = edu.princeton.cs.algs4.StdIn.readLine();
+            if (sg2.contains(sink)) {
+                int t = sg2.index(sink);
+                if (bfs.hasPathTo(t))
+                    for (int v : bfs.pathTo(t))
+                        StdOut.println("   " + sg2.name(v));
+                else StdOut.println("Not connected");
+            } else StdOut.println("Not in database.");
         }
     }
 }
