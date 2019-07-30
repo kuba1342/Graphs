@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 public class Graph {
 
     private final int V;    // number of vertices
@@ -23,13 +25,28 @@ public class Graph {
         }
     }
 
-    public int V() { return V; }
-    public int E() { return E; }
+    public int V() {
+        return V;
+    }
+
+    public int E() {
+        return E;
+    }
 
     public void addEdge(int v, int w) {
         adj[v].add(w);
         adj[w].add(v);
         E++;
+    }
+
+    public boolean hasEdge(int v, int w) {
+        Iterator<Integer> iterator = adj[v].iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next() == w) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Iterable<Integer> adj(int v) {
