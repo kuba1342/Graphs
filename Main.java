@@ -1,7 +1,7 @@
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        //System.out.println("Hello World!");
 //        Graph G = new Graph(new In(args[0]));
 //        CC cc = new CC(G);
 //
@@ -32,7 +32,6 @@ public class Main {
 //        }
 
 
-
         // Degrees of separation
 //        StdOut.println("Degrees of separation: ");
 //
@@ -61,13 +60,30 @@ public class Main {
 //        }
 
         // test if hasEdge
-        Graph graph = new Graph(5);
-        graph.addEdge(1, 2);
-        graph.addEdge(1, 3);
-        graph.addEdge(1, 4);
-        graph.addEdge(2, 4);
+//        Graph graph = new Graph(5);
+//        graph.addEdge(1, 2);
+//        graph.addEdge(1, 3);
+//        graph.addEdge(1, 4);
+//        graph.addEdge(2, 4);
+//
+//        System.out.println(graph.hasEdge(1, 2));
+//        System.out.println(graph.hasEdge(2, 3));
 
-        System.out.println(graph.hasEdge(1, 2));
-        System.out.println(graph.hasEdge(2, 3));
+        // DFS Path
+
+        Graph G = new Graph(new In(args[0]));
+        int s = Integer.parseInt(args[1]);
+        DepthFirstPaths dfs = new DepthFirstPaths(G, s);
+        for (int v = 0; v < G.V(); v++) {
+            if (dfs.hasPathTo(v)) {
+                StdOut.print(s + " to " + v + ": ");
+                for (int x : dfs.pathTo(v))
+                    if (x == s) StdOut.print(x);
+                    else StdOut.print(x + "-");
+                StdOut.println();
+            } else {
+                StdOut.printf("%d to %d: not connected\n", s, v);
+            }
+        }
     }
 }
