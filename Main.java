@@ -1,6 +1,11 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //System.out.println("Hello World!");
 //        Graph G = new Graph(new In(args[0]));
 //        CC cc = new CC(G);
@@ -69,21 +74,36 @@ public class Main {
 //        System.out.println(graph.hasEdge(1, 2));
 //        System.out.println(graph.hasEdge(2, 3));
 
-        // DFS Path
+        // Select Vertice
+        Scanner scanner = new Scanner(System.in);
+        StdOut.print("Vertice: ");
+        String vertice = scanner.next();
 
+        // DFS Path
+        String path = "";
         Graph G = new Graph(new In(args[0]));
         int s = Integer.parseInt(args[1]);
         DepthFirstPaths dfs = new DepthFirstPaths(G, s);
         for (int v = 0; v < G.V(); v++) {
-            if (dfs.hasPathTo(v)) {
+            if (dfs.hasPathTo(v) && v == Integer.parseInt(vertice)) {
                 StdOut.print(s + " to " + v + ": ");
-                for (int x : dfs.pathTo(v))
-                    if (x == s) StdOut.print(x);
-                    else StdOut.print(x + "-");
+                for (int x : dfs.pathTo(v)) {
+                    StdOut.print(x + " ");
+                    path += x + " ";
+                }
+                    //if (x == s) StdOut.print(x);
+                    //else StdOut.print(x + "-");
                 StdOut.println();
             } else {
-                StdOut.printf("%d to %d: not connected\n", s, v);
+                //StdOut.printf("%d to %d: not connected\n", s, v);
             }
         }
+        StdOut.print(path);
+
+        // Write path to file
+        FileWriter fileWriter = new FileWriter("path.txt");
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        printWriter.print(path);
+        printWriter.close();
     }
 }
